@@ -17,9 +17,8 @@ std::vector<std::string> keywords = {  //关键字
 	"print",
 	"input"
 };
-std::stack <std::string> aps_stack;  //程序TOKEN
-std::map <std::string,std::map<std::string,std::string>> asp_stack; //主栈
-
+std::stack <std::string> aps_stack;//程序TOKEN
+std::map<std::string,std::string> asp_stack;//主栈
 
 int readFile(std::string fileName) {
 	std::ifstream file(fileName);
@@ -108,7 +107,11 @@ int readFile(std::string fileName) {
 					aps_stack.pop();
 					std::string ss = aps_stack.top();
 					if (ss[0] != '$') std::cerr << "Your var` first char need to use '$'";
-					
+					for(const auto& [key,value] : asp_stack){
+						if(key==ss){
+							asp_stack[key] = ss;
+						}
+					}
 				}
 			}
 		}
