@@ -14,9 +14,11 @@ std::vector<std::string> keywords = {  //关键字
 	"SUB",
 	"MUL",
 	"DIV",
-	"print"
+	"print",
+	"input"
 };
-std::stack <std::string> aps_stack;  //程序用栈
+std::stack <std::string> aps_stack;  //程序TOKEN
+std::map <std::string,std::map<std::string,std::string>> asp_stack; //主栈
 
 
 int readFile(std::string fileName) {
@@ -101,6 +103,12 @@ int readFile(std::string fileName) {
 						std::string ss = aps_stack.top();
 						std::cout << ss;
 					}
+				}
+				else if (keywords[i] == "input") {
+					aps_stack.pop();
+					std::string ss = aps_stack.top();
+					if (ss[0] != '$') std::cerr << "Your var` first char need to use '$'";
+					
 				}
 			}
 		}
