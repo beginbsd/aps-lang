@@ -19,6 +19,15 @@ std::vector<std::string> keywords = {  //关键字
 std::stack <std::string> aps_stack;//程序TOKEN
 std::map<std::string,std::string> asp_stack;//主栈
 
+
+void var_push(std::string ss, std::string sv) {
+	for (const auto& [key, value] : asp_stack) {
+		if (key == ss) {
+			asp_stack[key] = sv;
+			break;
+		}
+	}
+}
 int readFile(std::string fileName) {
 	std::ifstream file(fileName);
 	if (!file.is_open()) {
@@ -106,15 +115,20 @@ int readFile(std::string fileName) {
 				else if (keywords[i] == "input") {
 					aps_stack.pop();
 					std::string ss = aps_stack.top();
-					if (ss[0] != '$') std::cerr << "Your var` first char need to use '$'";
+					if (ss[0] != '$') {
+						std::cerr << "Your var` first char need to use '$'";
+						return -1;
+					}					
 					std::string sv;
 					std::cin >> sv; //用户输入
-					for (const auto& [key, value] : asp_stack) {
-						if (key == ss) {
-							asp_stack[key] = sv;
-							break;
-						}
-					}
+					var_push(ss, sv);
+				}
+				else if(keywords[i] == "var") {
+					aps_stack.pop();
+					std::string var_value = aps_stack.top();
+					aps_stack.pop();
+					std::string var_name = aps_stack.top();  
+					var_push(var_name, var_value);//定义变量
 				}
 			}
 		}

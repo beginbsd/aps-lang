@@ -6,7 +6,12 @@ int main(int argc, char* argv[])
 	if (argv[1]!=0) {
 		std::string ts = argv[1];
 		if (ts == "-version") { std::cout << "ASP lang: version 0.1 " << std::endl; return 0; }
-		if (ts.ends_with(".aps"));
+		if (ts.ends_with(".aps")) {
+			readFile(ts);
+		}
+		else {
+			std::cerr << "ERROR|:  FILE TYPE NOT SUPPORTED" << std::endl;
+		}
 	}else {
 		std::cout << "ERROR|:  NO FILE SPECIFIED" << std::endl;
 	}
