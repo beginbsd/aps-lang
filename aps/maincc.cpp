@@ -52,6 +52,7 @@ int readFile(std::string fileName) {
 						sum += a;
 						a = std::stoi(aps_stack.top());
 						sum += a;
+						aps_stack.pop();
 					}
 					catch(std::exception& e){
 						std::cerr << "ERROR|: ADD only need 2 number!" << std::endl;
@@ -66,6 +67,7 @@ int readFile(std::string fileName) {
 						sum -= a;
 						a = std::stoi(aps_stack.top());
 						sum -= a;
+						aps_stack.pop();
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: SUB only need 2 number!" << std::endl;
@@ -80,6 +82,7 @@ int readFile(std::string fileName) {
 						sum *= a;
 						a = std::stoi(aps_stack.top());
 						sum *= a;
+						aps_stack.pop();
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: MUL only need 2 number!" << std::endl;
@@ -94,11 +97,32 @@ int readFile(std::string fileName) {
 						sum /= a;
 						a = std::stoi(aps_stack.top());
 						sum /= a;
+						aps_stack.pop();
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: DIV only need 2 number!" << std::endl;
 						return -1;
 					}
+				}
+				else if (keywords[i] == "EQ") {
+					aps_stack.pop();
+					try {
+						double a = std::stoi(aps_stack.top());
+						aps_stack.pop();
+						double b = std::stoi(aps_stack.top());
+						aps_stack.pop();
+						if (a == b) {
+							std::cout << "true" << std::endl;
+						}
+						else {
+							std::cout << "false" << std::endl;
+						}
+					}
+					catch (std::exception& e) {
+						std::cerr << "ERROR|: EQ only need 2 number!" << std::endl;
+						return -1;
+					}
+
 				}
 				else if (keywords[i] == "print") {
 					aps_stack.pop();
@@ -108,6 +132,7 @@ int readFile(std::string fileName) {
 					}
 					else {
 						std::string ss = aps_stack.top();
+						aps_stack.pop();
 						if (ss[0] == '@') { ss.erase(0, 1); }
 						else { std::cout << ss; }
 					}
@@ -115,6 +140,7 @@ int readFile(std::string fileName) {
 				else if (keywords[i] == "input") {
 					aps_stack.pop();
 					std::string ss = aps_stack.top();
+					aps_stack.pop();
 					if (ss[0] != '$') {
 						std::cerr << "Your var` first char need to use '$'";
 						return -1;
