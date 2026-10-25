@@ -156,6 +156,8 @@ int readFile(std::string fileName) {
 					std::string var_name = aps_stack.top();  
 					var_push(var_name, var_value);//定义变量
 				}
+				else if(keywords[i] == "if") {
+					
 			}
 		}
 	}
