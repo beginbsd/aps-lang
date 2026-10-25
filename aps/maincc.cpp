@@ -6,8 +6,7 @@
 #include <stack>
 #include<map>
 
-double sum=0;   //运算结果
-
+double sum = 0;
 
 std::vector<std::string> keywords = {  //关键字
 	"ADD",
@@ -100,16 +99,20 @@ int readFile(std::string fileName) {
 					}
 					else {
 						std::string ss = aps_stack.top();
-						std::cout << ss;
+						if (ss[0] == '@') { ss.erase(0, 1); }
+						else { std::cout << ss; }
 					}
 				}
 				else if (keywords[i] == "input") {
 					aps_stack.pop();
 					std::string ss = aps_stack.top();
 					if (ss[0] != '$') std::cerr << "Your var` first char need to use '$'";
-					for(const auto& [key,value] : asp_stack){
-						if(key==ss){
-							asp_stack[key] = ss;
+					std::string sv;
+					std::cin >> sv; //用户输入
+					for (const auto& [key, value] : asp_stack) {
+						if (key == ss) {
+							asp_stack[key] = sv;
+							break;
 						}
 					}
 				}
