@@ -161,14 +161,16 @@ int readFile(std::string fileName) {
 				else if (keywords[i] == "print") {
 					aps_stack.pop();
 					if (aps_stack.empty()) {
-						std::cerr << "print can`t appear alone at line" << std::endl;
+						std::cerr << "ERROR|: print can`t appear alone at line" << std::endl;
 						return -1;
 					}
 					else {
 						std::string ss = aps_stack.top();
 						aps_stack.pop();
 						if (ss[0] == '@') { ss.erase(0, 1); }
-						else { std::cout << ss; }
+						else if (ss[0] == '$') { std::cout << asp_stack[ss]; }
+						else if(std::stoi(ss)){ std::cout << std::stoi(ss) << std::endl; }
+						else{std::cerr<<"ERROR|: Invalid print statement" << std::endl; }
 					}
 				}
 				else if (keywords[i] == "input") {
@@ -176,7 +178,7 @@ int readFile(std::string fileName) {
 					std::string ss = aps_stack.top();
 					aps_stack.pop();
 					if (ss[0] != '$') {
-						std::cerr << "Your var` first char need to use '$'";
+						std::cerr << "ERROR:|Your var` first char need to use '$'";
 						return -1;
 					}
 					std::string sv;
