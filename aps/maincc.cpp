@@ -13,6 +13,8 @@ std::vector<std::string> keywords = {  //关键字
 	"SUB",
 	"MUL",
 	"DIV",
+	"MOD",
+	"EQ",
 	"print",
 	"input"
 };
@@ -53,6 +55,9 @@ int readFile(std::string fileName) {
 						a = std::stoi(aps_stack.top());
 						sum += a;
 						aps_stack.pop();
+						std::string n = aps_stack.top();
+						aps_stack.pop();
+						var_push(n, std::to_string(sum));
 					}
 					catch(std::exception& e){
 						std::cerr << "ERROR|: ADD only need 2 number!" << std::endl;
@@ -64,10 +69,13 @@ int readFile(std::string fileName) {
 					try {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
-						sum -= a;
-						a = std::stoi(aps_stack.top());
-						sum -= a;
+						
+						double b = std::stoi(aps_stack.top());
+						sum = a - b;
 						aps_stack.pop();
+						std::string n = aps_stack.top();
+						aps_stack.pop();
+						var_push(n, std::to_string(sum));
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: SUB only need 2 number!" << std::endl;
@@ -79,10 +87,12 @@ int readFile(std::string fileName) {
 					try {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
-						sum *= a;
-						a = std::stoi(aps_stack.top());
-						sum *= a;
+						double b = std::stoi(aps_stack.top());
+						sum = a*b;
 						aps_stack.pop();
+						std::string n = aps_stack.top();
+						aps_stack.pop();
+						var_push(n, std::to_string(sum));
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: MUL only need 2 number!" << std::endl;
@@ -94,13 +104,34 @@ int readFile(std::string fileName) {
 					try {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
-						sum /= a;
-						a = std::stoi(aps_stack.top());
-						sum /= a;
+						
+						double b = std::stoi(aps_stack.top());
+						sum = a / b;
 						aps_stack.pop();
+						std::string n = aps_stack.top();
+						aps_stack.pop();
+						var_push(n, std::to_string(sum));
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: DIV only need 2 number!" << std::endl;
+						return -1;
+					}
+				}
+				else if (keywords[i] == "MOD") {
+					aps_stack.pop();
+					try {
+						int a = std::stoi(aps_stack.top());
+						aps_stack.pop();
+
+						int b = std::stoi(aps_stack.top());
+						sum = a % b;
+						aps_stack.pop();
+						std::string n = aps_stack.top();
+						aps_stack.pop();
+						var_push(n, std::to_string(sum));
+					}
+					catch (std::exception& e) {
+						std::cerr << "ERROR|: MOD only need 2 number!" << std::endl;
 						return -1;
 					}
 				}
@@ -112,11 +143,14 @@ int readFile(std::string fileName) {
 						double b = std::stoi(aps_stack.top());
 						aps_stack.pop();
 						if (a == b) {
-							std::cout << "true" << std::endl;
+							sum = 1;
 						}
 						else {
-							std::cout << "false" << std::endl;
+							sum = 0;
 						}
+						std::string n = aps_stack.top();
+						aps_stack.pop();
+						var_push(n, std::to_string(sum));
 					}
 					catch (std::exception& e) {
 						std::cerr << "ERROR|: EQ only need 2 number!" << std::endl;
@@ -157,7 +191,16 @@ int readFile(std::string fileName) {
 					var_push(var_name, var_value);//定义变量
 				}
 				else if(keywords[i] == "if") {
-					
+					aps_stack.pop();
+					std::string ss = aps_stack.top();
+					if (ss[0] == '$') {
+						if (std::stoi(asp_stack[ss])&&std::stoi(asp_stack[ss]) > 0){
+							aps_stack.pop();
+							
+						}else{
+							std::cerr << "if condition is false, skip the next statement" << std::endl;
+							aps_stack.pop();
+					}
 			}
 		}
 	}
