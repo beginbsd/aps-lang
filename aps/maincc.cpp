@@ -59,7 +59,7 @@ int readFile(std::string fileName) {
 						aps_stack.pop();
 						var_push(n, std::to_string(sum));
 					}
-					catch(std::exception& e){
+					catch (std::exception& e) {
 						std::cerr << "ERROR|: ADD only need 2 number!" << std::endl;
 						return -1;
 					}
@@ -69,7 +69,7 @@ int readFile(std::string fileName) {
 					try {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
-						
+
 						double b = std::stoi(aps_stack.top());
 						sum = a - b;
 						aps_stack.pop();
@@ -88,7 +88,7 @@ int readFile(std::string fileName) {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
 						double b = std::stoi(aps_stack.top());
-						sum = a*b;
+						sum = a * b;
 						aps_stack.pop();
 						std::string n = aps_stack.top();
 						aps_stack.pop();
@@ -104,7 +104,7 @@ int readFile(std::string fileName) {
 					try {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
-						
+
 						double b = std::stoi(aps_stack.top());
 						sum = a / b;
 						aps_stack.pop();
@@ -178,29 +178,18 @@ int readFile(std::string fileName) {
 					if (ss[0] != '$') {
 						std::cerr << "Your var` first char need to use '$'";
 						return -1;
-					}					
+					}
 					std::string sv;
 					std::cin >> sv; //用户输入
 					var_push(ss, sv);
 				}
-				else if(keywords[i] == "var") {
+				else if (keywords[i] == "var") {
 					aps_stack.pop();
 					std::string var_value = aps_stack.top();
 					aps_stack.pop();
-					std::string var_name = aps_stack.top();  
+					std::string var_name = aps_stack.top();
 					var_push(var_name, var_value);//定义变量
 				}
-				else if(keywords[i] == "if") {
-					aps_stack.pop();
-					std::string ss = aps_stack.top();
-					if (ss[0] == '$') {
-						if (std::stoi(asp_stack[ss])&&std::stoi(asp_stack[ss]) > 0){
-							aps_stack.pop();
-							
-						}else{
-							std::cerr << "if condition is false, skip the next statement" << std::endl;
-							aps_stack.pop();
-					}
 			}
 		}
 	}
