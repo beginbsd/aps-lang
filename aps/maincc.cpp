@@ -43,7 +43,7 @@ int readFile(std::string fileName) {
 		for (size_t i = 0;i < keywords.size();i++) {
 			if (aps_stack.top() == keywords[i]) {
 				if (keywords[i] == "ADD") {
-					aps_stack.pop();
+					//aps_stack.pop();
 					try {
 						double a = std::stoi(aps_stack.top());
 						aps_stack.pop();
